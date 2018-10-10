@@ -1,4 +1,5 @@
-var cardList, openCards, symbols, matchedCards, stars, modal, span, moves, clock, timeCount, timerInterval;
+var cardList, openCards, symbols, matchedCards, stars, modal, span, moves,
+clock, timeCount, timeFinal, timerInterval;
 
 cardList = $('.card');
 openCards = $('.open').not('.match');
@@ -37,6 +38,7 @@ $('.restart').on('click', function(){
 function resetGame() {
   resetTimer();
   resetMoves();
+  resetStars();
   matchedCards=[];
   shuffle(cardList);
   $('.deck').remove('li');
@@ -108,8 +110,9 @@ function wrongCard(array) {
 function winChecker(matchedCards) {
   if (matchedCards.length===16) {
     clearInterval(timerInterval);
+    timeFinal = $(clock).text();
     modal.style.display='block';
-    $('#myModal').find('p').text('You did it! You got '+stars.length+' stars in '+moves+' moves!');
+    $('#myModal').find('p').text('You did it! With '+moves+' moves in '+timeFinal+', you got '+stars.length+' stars!');
   }
 }
 
@@ -130,6 +133,14 @@ function moveCounter() {
     $('#star2').addClass('fa fa-times');
   }
   stars=$('.fa-star');
+}
+
+/* resets rating stars to starting values */
+function resetStars() {
+  $('#star3').removeClass('fa fa-times');
+  $('#star3').addClass('fa fa-star');
+  $('#star2').removeClass('fa fa-times');
+  $('#star2').addClass('fa fa-star');
 }
 
 /* returns move count to 0 on reset */
